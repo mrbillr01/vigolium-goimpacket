@@ -21,7 +21,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/projectdiscovery/goimpacket/pkg/flags"
+	"github.com/Mzack9999/goimpacket/pkg/flags"
 	"golang.org/x/net/icmp"
 	"golang.org/x/net/ipv4"
 )

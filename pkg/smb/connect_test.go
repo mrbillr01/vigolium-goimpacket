@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/projectdiscovery/goimpacket/pkg/session"
+	"github.com/Mzack9999/goimpacket/pkg/session"
 )
 
 func TestConnectContextGivesUpOnStalledServer(t *testing.T) {

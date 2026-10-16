@@ -1,4 +1,4 @@
-module github.com/projectdiscovery/goimpacket
+module github.com/Mzack9999/goimpacket
 
 go 1.25.0
 
@@ -14,7 +14,7 @@ require (
 	github.com/jcmturner/dnsutils/v2 v2.0.0
 	github.com/jcmturner/gofork v1.7.6
 	github.com/jcmturner/rpc/v2 v2.0.3
-	github.com/oiweiwei/go-msrpc v1.2.12
+	github.com/oiweiwei/go-msrpc v1.6.4
 	github.com/oiweiwei/gokrb5.fork/v9 v9.0.6
 	github.com/rs/zerolog v1.32.0
 	golang.org/x/crypto v0.52.0

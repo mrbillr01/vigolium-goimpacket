@@ -32,9 +32,9 @@ import (
 	"github.com/oiweiwei/gokrb5.fork/v9/credentials"
 	"github.com/oiweiwei/gokrb5.fork/v9/iana/flags"
 
-	"github.com/projectdiscovery/goimpacket/internal/build"
-	"github.com/projectdiscovery/goimpacket/pkg/kerberos"
-	"github.com/projectdiscovery/goimpacket/pkg/session"
+	"github.com/Mzack9999/goimpacket/internal/build"
+	"github.com/Mzack9999/goimpacket/pkg/kerberos"
+	"github.com/Mzack9999/goimpacket/pkg/session"
 )
 
 // KerberosAuthHandler manages Kerberos authentication for RPC using go-msrpc.
@@ -437,7 +437,7 @@ func (k *KerberosAuthHandler) Encrypt(plaintext []byte) []byte {
 	forSeal := [][]byte{encrypted}
 
 	// Wrap using go-msrpc - this encrypts forSeal in place and returns signature
-	signature, err := krbMech.Authentifier.WrapOutboundPayload(k.ctx, forSign, forSeal)
+	signature, err := krbMech.Authentifier.WrapExOutboundPayload(k.ctx, forSign, forSeal)
 	if err != nil {
 		if build.Debug {
 			log.Printf("[D] KerberosAuth.Encrypt: WrapOutboundPayload failed: %v", err)
@@ -522,7 +522,7 @@ func (k *KerberosAuthHandler) DecryptWithSignature(ciphertext, signature []byte)
 	forSeal := [][]byte{decrypted}
 
 	// Unwrap using go-msrpc - this decrypts forSeal in place and verifies signature
-	verified, err := krbMech.Authentifier.UnwrapInboundPayload(k.ctx, forSign, forSeal, signature)
+	verified, err := krbMech.Authentifier.UnwrapExInboundPayload(k.ctx, forSign, forSeal, signature)
 	if err != nil {
 		return nil, fmt.Errorf("unwrap failed: %v", err)
 	}

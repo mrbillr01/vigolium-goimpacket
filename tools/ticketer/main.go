@@ -21,9 +21,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/projectdiscovery/goimpacket/internal/build"
-	"github.com/projectdiscovery/goimpacket/pkg/flags"
-	"github.com/projectdiscovery/goimpacket/pkg/kerberos"
+	"github.com/Mzack9999/goimpacket/internal/build"
+	"github.com/Mzack9999/goimpacket/pkg/flags"
+	"github.com/Mzack9999/goimpacket/pkg/kerberos"
 )
 
 var (

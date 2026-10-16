@@ -31,7 +31,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/projectdiscovery/goimpacket/pkg/flags"
+	"github.com/Mzack9999/goimpacket/pkg/flags"
 )
 
 var (

@@ -19,7 +19,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/projectdiscovery/goimpacket/pkg/transport"
+	"github.com/Mzack9999/goimpacket/pkg/transport"
 )
 
 // SQLRInstance represents a discovered SQL Server instance

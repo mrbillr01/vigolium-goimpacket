@@ -33,7 +33,7 @@ import (
 	"golang.org/x/crypto/md4"
 	"golang.org/x/text/encoding/unicode"
 
-	"github.com/projectdiscovery/goimpacket/pkg/flags"
+	"github.com/Mzack9999/goimpacket/pkg/flags"
 )
 
 var (

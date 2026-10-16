@@ -16,7 +16,7 @@
 package wmi
 
 import (
-	"github.com/projectdiscovery/goimpacket/pkg/dcerpc"
+	"github.com/Mzack9999/goimpacket/pkg/dcerpc"
 )
 
 // WMI UUIDs

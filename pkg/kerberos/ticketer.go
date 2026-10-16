@@ -25,17 +25,20 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Mzack9999/goimpacket/pkg/third_party/gokrb5/crypto"
+	"github.com/Mzack9999/goimpacket/pkg/third_party/gokrb5/iana/adtype"
+	"github.com/Mzack9999/goimpacket/pkg/third_party/gokrb5/iana/etypeID"
+	"github.com/Mzack9999/goimpacket/pkg/third_party/gokrb5/iana/flags"
+	"github.com/Mzack9999/goimpacket/pkg/third_party/gokrb5/keytab"
+	"github.com/Mzack9999/goimpacket/pkg/third_party/gokrb5/types"
 	gokrbasn1 "github.com/jcmturner/gofork/encoding/asn1"
-	"github.com/projectdiscovery/goimpacket/pkg/third_party/gokrb5/crypto"
-	"github.com/projectdiscovery/goimpacket/pkg/third_party/gokrb5/iana/adtype"
-	"github.com/projectdiscovery/goimpacket/pkg/third_party/gokrb5/iana/etypeID"
-	"github.com/projectdiscovery/goimpacket/pkg/third_party/gokrb5/iana/flags"
-	"github.com/projectdiscovery/goimpacket/pkg/third_party/gokrb5/keytab"
-	"github.com/projectdiscovery/goimpacket/pkg/third_party/gokrb5/types"
 )
 
 // TicketConfig holds configuration for ticket creation
 type TicketConfig struct {
+	// OutputFile overrides the ccache destination; "-" disables filesystem output.
+	OutputFile string
+
 	// Required
 	Username  string
 	Domain    string
@@ -306,21 +309,30 @@ func CreateTicket(cfg *TicketConfig) (*TicketResult, error) {
 	}
 	ticketBytes = wrapASN1App(1, ticketBytes)
 
-	// Save to ccache (replace / with . for SPN-style usernames)
-	filename := strings.ReplaceAll(cfg.Username, "/", ".") + ".ccache"
+	// Save to ccache (replace / with . for SPN-style usernames).
+	// OutputFile overrides the default destination; "-" disables writing.
+	filename := cfg.OutputFile
+	if filename == "" {
+		filename = strings.ReplaceAll(cfg.Username, "/", ".") + ".ccache"
+	}
 	// Compute ccache ticket flags from ASN.1 BitString
 	ccacheFlags := krbFlagsToCCache(ticketFlags)
 
-	if err := saveToCCache(filename, ticketBytes, sessionKey, cname, realm, sname, now, endTime, renewTill, ccacheFlags); err != nil {
-		return nil, fmt.Errorf("failed to save ccache: %v", err)
+	if filename != "-" {
+		if err := saveToCCache(filename, ticketBytes, sessionKey, cname, realm, sname, now, endTime, renewTill, ccacheFlags); err != nil {
+			return nil, fmt.Errorf("failed to save ccache: %v", err)
+		}
 	}
 
-	return &TicketResult{
+	result := &TicketResult{
 		Ticket:     ticketBytes,
 		SessionKey: sessionKey.KeyValue,
 		EncType:    encType,
-		Filename:   filename,
-	}, nil
+	}
+	if filename != "-" {
+		result.Filename = filename
+	}
+	return result, nil
 }
 
 // ASN.1 structures for ticket construction
